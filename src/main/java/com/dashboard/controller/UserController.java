@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,5 +69,11 @@ public class UserController {
 	public ResponseEntity<User> login(@RequestBody UserLogin login){
 		User login2 = service.login(login);
 		return ResponseEntity.ok(login2);
+	}
+	
+	@GetMapping("/profile")
+	public ResponseEntity<String> profile(Authentication authentication){
+		String name = authentication.getName();
+		return ResponseEntity.ok("login user :"+name);
 	}
 }
