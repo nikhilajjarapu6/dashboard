@@ -71,7 +71,7 @@ public class UserController {
 		return ResponseEntity.ok(login2);
 	}
 
-	//this end point shows current logged profile name
+	//this end point shows current logged profile names
 	@GetMapping("/profile")
 	public ResponseEntity<String> profile(Authentication authentication){
 		String name = authentication.getName();
