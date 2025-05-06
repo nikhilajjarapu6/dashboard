@@ -73,7 +73,8 @@ public class UserController {
 		User login2 = service.login(login);
 		return ResponseEntity.ok(login2);
 	}
-	
+
+	//this end point shows current logged profile name
 	@GetMapping("/profile")
 	public ResponseEntity<String> profile(Authentication authentication){
 		String name = authentication.getName();
