@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dashboard.dto.PasswordChangeRequest;
 import com.dashboard.dto.UserLogin;
 import com.dashboard.entity.User;
 import com.dashboard.service.UserService;
@@ -76,5 +77,11 @@ public class UserController {
 	public ResponseEntity<String> profile(Authentication authentication){
 		String name = authentication.getName();
 		return ResponseEntity.ok("login user :"+name);
+	}
+	
+	@PutMapping("/password")
+	public ResponseEntity<User> changePassword(Authentication authentication,@RequestBody PasswordChangeRequest request){
+		User passwordUpdate = service.passwordUpdate(authentication, request);
+		return ResponseEntity.ok(passwordUpdate);
 	}
 }
