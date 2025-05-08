@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.dashboard.service.CustomUser;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 public class UserConfig  {
@@ -32,9 +34,21 @@ public class UserConfig  {
 				.csrf(csrf->csrf.disable())
 				.authorizeHttpRequests(auth->auth
 				.requestMatchers("/app/login").permitAll()
-				.anyRequest().authenticated()
-						)
+				.anyRequest().hasRole("ADMIN"))
+				.exceptionHandling(ex -> ex
+			            .accessDeniedHandler((request, response, accessDeniedException) -> {
+			                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			                response.setContentType("application/json");
+			                response.getWriter().write("{\"error\": \"Access denied: You do not have the required role.\"}");
+			            })
+			        )
 				.httpBasic(Customizer.withDefaults())
+//				.formLogin(form -> form
+//		                .loginPage("/login.html")       // our custom HTML page
+//		                .loginProcessingUrl("/app/login")   // Spring will handle this POST request
+//		                .defaultSuccessUrl("/app/profile", true) 
+//		                .permitAll() 
+//		            )
 				.userDetailsService(userDetailes)
 				.build();
 	}
